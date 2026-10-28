@@ -1,0 +1,12 @@
+{
+  "name": "ELITESTAR - Ultimate Esports & LAN Tournament Platform",
+  "description": "Premium Free Fire esports tournament platform with A-Z 3D VIP profiles, squad systems, real-time chat, monthly all-expenses-paid LAN events, and instant wallet integration.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

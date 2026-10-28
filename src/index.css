@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,600;0,700;1,700&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Rajdhani", "Chakra Petch", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-primary: var(--primary-color, #FF6B00);
+  --color-primary-glow: var(--primary-glow, rgba(255, 107, 0, 0.42));
+  --color-booyah-gold: #F59E0B;
+  --color-bharat-emerald: #10B981;
+  --color-yotta-cyan: #38BDF8;
+  --color-dark-bg: #07080C;
+  --color-card-bg: #0E1118;
+  --color-elevated-bg: #151A24;
+}
+
+:root {
+  --primary-color: #FF6B00;
+  --primary-glow: rgba(255, 107, 0, 0.42);
+}
+
+[data-theme="red"] {
+  --primary-color: #FF2E2E;
+  --primary-glow: rgba(255, 46, 46, 0.4);
+}
+
+[data-theme="purple"] {
+  --primary-color: #9D4EDD;
+  --primary-glow: rgba(157, 78, 221, 0.4);
+}
+
+[data-theme="blue"] {
+  --primary-color: #00A8E8;
+  --primary-glow: rgba(0, 168, 232, 0.4);
+}
+
+body {
+  background-color: #07080C;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(255, 107, 0, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 100%, rgba(16, 185, 129, 0.06) 0%, transparent 40%);
+  color: #F8FAFC;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Free Fire India Tactical HUD Surface */
+.glass-card {
+  background: linear-gradient(155deg, rgba(21, 26, 36, 0.88) 0%, rgba(14, 17, 24, 0.94) 100%);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.7);
+}
+
+.hud-card {
+  position: relative;
+  background: linear-gradient(160deg, rgba(22, 27, 39, 0.94) 0%, rgba(11, 14, 21, 0.98) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.24);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.hud-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 64px;
+  height: 2px;
+  background: linear-gradient(90deg, #FF6B00, #F59E0B, transparent);
+  pointer-events: none;
+}
+
+.tiranga-ribbon {
+  background: linear-gradient(90deg, rgba(255, 107, 0, 0.2) 0%, rgba(245, 158, 11, 0.14) 50%, rgba(16, 185, 129, 0.2) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.booyah-badge {
+  background: linear-gradient(135deg, #FDE047 0%, #F59E0B 50%, #FF6B00 100%);
+  color: #07080C;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.neon-border {
+  border: 1px solid var(--color-primary);
+  box-shadow: 0 0 18px var(--color-primary-glow);
+}
+
+.neon-text {
+  color: var(--color-primary);
+  text-shadow: 0 0 12px var(--color-primary-glow);
+}
+
+.neon-button {
+  background: linear-gradient(135deg, #FF6B00 0%, #F59E0B 100%);
+  color: #07080C;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 22px rgba(255, 107, 0, 0.35);
+}
+
+.neon-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
+  filter: brightness(1.06);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07080C;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #232938;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}

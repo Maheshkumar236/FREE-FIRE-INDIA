@@ -1,0 +1,160 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered ELITESTAR player profile, wallet balance, Free Fire identity, and VIP 3D avatar/banner.",
+      "type": "object",
+      "properties": {
+        "username": { "type": "string", "maxLength": 64 },
+        "email": { "type": "string", "format": "email", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 24 },
+        "dob": { "type": "string", "maxLength": 32 },
+        "app_uid": { "type": "string", "maxLength": 32 },
+        "freefire_uid": { "type": "string", "maxLength": 32 },
+        "freefire_name": { "type": "string", "maxLength": 64 },
+        "freefire_level": { "type": "number" },
+        "wallet_balance": { "type": "number" },
+        "winnings": { "type": "number" },
+        "deposits": { "type": "number" },
+        "total_matches": { "type": "number" },
+        "total_wins": { "type": "number" },
+        "is_admin": { "type": "boolean" },
+        "is_staff": { "type": "boolean" },
+        "is_banned": { "type": "boolean" },
+        "avatar_url": { "type": "string" },
+        "banner_url": { "type": "string" },
+        "profile_photo": { "type": "string" }
+      },
+      "required": ["username", "email", "app_uid"]
+    },
+    "Match": {
+      "title": "Match",
+      "description": "Free Fire esports tournament match configuration, prize breakdown, and room credentials.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "entry_fee": { "type": "number" },
+        "prize_pool": { "type": "number" },
+        "prize_pool_1st": { "type": "number" },
+        "prize_pool_2nd": { "type": "number" },
+        "prize_pool_3rd": { "type": "number" },
+        "per_kill_prize": { "type": "number" },
+        "map": { "type": "string", "enum": ["Bermuda", "Kalahari", "Purgatory", "Alpine"] },
+        "mode": { "type": "string", "enum": ["Solo", "Duo", "Squad", "Clash Squad", "Lone Wolf", "1v1", "2v2", "3v3"] },
+        "joined_players": { "type": "number" },
+        "max_players": { "type": "number" },
+        "status": { "type": "string", "enum": ["upcoming", "ongoing", "completed", "cancelled"] },
+        "room_id": { "type": "string", "maxLength": 64 },
+        "room_password": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["title", "entry_fee", "prize_pool", "map", "mode", "max_players", "status"]
+    },
+    "MatchParticipant": {
+      "title": "MatchParticipant",
+      "description": "Player or Squad registration record for a tournament match, including slot, kills, placement, and prize won.",
+      "type": "object",
+      "properties": {
+        "match_id": { "type": "string", "maxLength": 128 },
+        "match_title": { "type": "string", "maxLength": 120 },
+        "match_mode": { "type": "string", "maxLength": 32 },
+        "user_uid": { "type": "string", "maxLength": 128 },
+        "username": { "type": "string", "maxLength": 64 },
+        "ff_uid": { "type": "string", "maxLength": 32 },
+        "ff_name": { "type": "string", "maxLength": 64 },
+        "ff_level": { "type": "number" },
+        "squad_id": { "type": "string", "maxLength": 128 },
+        "squad_name": { "type": "string", "maxLength": 64 },
+        "slot": { "type": "number" },
+        "kills": { "type": "number" },
+        "placement": { "type": "number" },
+        "prize_won": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "registered"] }
+      },
+      "required": ["match_id", "user_uid", "username"]
+    },
+    "Squad": {
+      "title": "Squad",
+      "description": "4-player Free Fire team roster for 1-click tournament registration and squad chat.",
+      "type": "object",
+      "properties": {
+        "squad_name": { "type": "string", "maxLength": 64 },
+        "squad_code": { "type": "string", "maxLength": 16 },
+        "leader_uid": { "type": "string", "maxLength": 128 },
+        "leader_name": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["squad_name", "squad_code", "leader_uid"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Wallet ledger entry for deposits, withdrawals, match entry fees, and prize payouts.",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["deposit", "withdraw", "match_entry", "match_win", "signup_bonus"] },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "completed", "failed"] },
+        "upi_id": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["user_id", "type", "amount", "status"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "In-app notification for match room IDs, prize payouts, wallet updates, and friend requests.",
+      "type": "object",
+      "properties": {
+        "user_uid": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "maxLength": 64 },
+        "message": { "type": "string", "maxLength": 500 },
+        "read": { "type": "boolean" }
+      },
+      "required": ["user_uid", "type", "message", "read"]
+    },
+    "LanRegistration": {
+      "title": "LanRegistration",
+      "description": "Player or Squad application for the 4 Monthly All-Expenses-Paid Offline LAN Tournaments.",
+      "type": "object",
+      "properties": {
+        "lan_id": { "type": "string", "maxLength": 64 },
+        "lan_title": { "type": "string", "maxLength": 128 },
+        "lan_city": { "type": "string", "maxLength": 64 },
+        "user_uid": { "type": "string", "maxLength": 128 },
+        "username": { "type": "string", "maxLength": 64 },
+        "departure_city": { "type": "string", "maxLength": 64 },
+        "squad_name": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "maxLength": 32 }
+      },
+      "required": ["lan_id", "user_uid", "departure_city"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Player profiles, VIP 3D identity, Free Fire IDs, and wallet balances."
+    },
+    "/matches/{matchId}": {
+      "schema": { "$ref": "#/entities/Match" },
+      "description": "Tournament listings, prize pools, and room credentials."
+    },
+    "/match_participants/{participantId}": {
+      "schema": { "$ref": "#/entities/MatchParticipant" },
+      "description": "Tournament registrations, assigned slots, kills, and placements."
+    },
+    "/squads/{squadId}": {
+      "schema": { "$ref": "#/entities/Squad" },
+      "description": "4-player squad rosters and invite codes."
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Wallet deposits, withdrawals, match entry fees, and prize payouts."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "Real-time player notifications."
+    },
+    "/lan_registrations/{registrationId}": {
+      "schema": { "$ref": "#/entities/LanRegistration" },
+      "description": "Monthly Offline LAN qualifier applications."
+    }
+  }
+}

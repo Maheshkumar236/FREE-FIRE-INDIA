@@ -1,0 +1,117 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email in ['mkofficialforcollab@gmail.com', 'maheshkumae8542@gmail.com']) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.is_admin == true ||
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.is_staff == true))
+      );
+    }
+
+    match /test/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isOwner(userId) || isSuperAdmin();
+      allow update: if isOwner(userId) || isSuperAdmin() || (
+        isSignedIn() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['total_matches', 'followers_count', 'following_count'])
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    match /matches/{matchId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSuperAdmin();
+    }
+
+    match /match_participants/{participantId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+      allow delete: if isSuperAdmin();
+    }
+
+    match /squads/{squadId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+      allow delete: if isSuperAdmin();
+    }
+
+    match /squad_messages/{messageId} {
+      allow read, create: if isSignedIn();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    match /transactions/{transactionId} {
+      allow read: if isSignedIn() && (resource.data.user_id == request.auth.uid || isSuperAdmin());
+      allow create: if isSignedIn();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && (resource.data.user_uid == request.auth.uid || isSuperAdmin());
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && (resource.data.user_uid == request.auth.uid || isSuperAdmin());
+    }
+
+    match /friend_requests/{requestId} {
+      allow read, create, update, delete: if isSignedIn();
+    }
+
+    match /friends/{friendId} {
+      allow read, create, update, delete: if isSignedIn();
+    }
+
+    match /chats/{chatId} {
+      allow read, create, update: if isSignedIn();
+      match /messages/{messageId} {
+        allow read, create, update: if isSignedIn();
+      }
+    }
+
+    match /global_chat/{messageId} {
+      allow read, create: if isSignedIn();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow create, update, delete: if isSuperAdmin();
+    }
+
+    match /support_tickets/{ticketId} {
+      allow read: if isSignedIn() && (resource.data.user_uid == request.auth.uid || isSuperAdmin());
+      allow create: if isSignedIn();
+      allow update, delete: if isSuperAdmin();
+    }
+
+    match /admin_logs/{logId} {
+      allow read, create: if isSuperAdmin();
+    }
+
+    match /lan_registrations/{registrationId} {
+      allow read: if isSignedIn() && (resource.data.user_uid == request.auth.uid || isSuperAdmin());
+      allow create, update: if isSignedIn();
+      allow delete: if isSuperAdmin();
+    }
+  }
+}
